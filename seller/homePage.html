@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root{
+            --dark-color: #19283f;
+            --green-color: #33d1cc;
+            --red-color: #ff3150;
+            --yellow-color: #ffc400;
+            --section-color: #eff7fa;
+            --navbar-color: #6e2cf5;
+            --test-color : #231709;
+            --footer-text-color: #9ca3af;
+        }
+        .card {
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .stat-card {
+            border-left: 4px solid;
+            border-radius: 4px;
+        }
+        .stat-card.primary {
+            border-left-color: #4e73df;
+        }
+        .stat-card.success {
+            border-left-color: #1cc88a;
+        }
+        .stat-card.info {
+            border-left-color: #36b9cc;
+        }
+        .stat-card.warning {
+            border-left-color: #f6c23e;
+        }
+        img{
+            height: 200px;
+            object-fit: contain;
+        }
+        .status-Processing {
+            background-color: #ffeeba;
+            color: #856404;
+        }
+        .status-Delivered {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-canceled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+    <script> 
+        (function() {
+        const loggedInUserId = sessionStorage.getItem('loggedInUserId');
+        const loggedInUserRole = sessionStorage.getItem('loggedInUserRole');
+        if (loggedInUserId) {
+            const users = JSON.parse(localStorage.getItem('userData'));
+            const allUsers = [...users.admin, ...users.sellers, ...users.customers];
+            const user = allUsers.find(u => u.id == loggedInUserId);
+
+            if (user) {
+                if (loggedInUserRole === 'admin') {
+                    if (window.location.pathname !== '/admin/admin.html') {
+                        window.location.href = '/admin/admin.html';
+                    }
+                } else if (loggedInUserRole === 'seller') {
+                    if (window.location.pathname !== '/seller/homePage.html') {
+                        window.location.href = '/seller/homePage.html';
+                    }
+                } else if (loggedInUserRole === 'customer') {
+                    if (window.location.pathname !== '/homePage.html') {
+                        window.location.href = '/homePage.html';
+                    }
+                } else {
+                    window.location.href = '/login.html';
+                }
+            } else {
+                window.location.href = '/login.html';
+            }
+        } else {
+            window.location.href = '/homePage.html';
+        }
+    })();        
+    </script>
+    <title>Seller Dashboard</title>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script>
+        fetch('/include/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+                const searchbar = document.getElementsByClassName("search-wrapper")[0];
+                const iconbar = document.getElementsByClassName("icon-bar")[0];
+                const icon1 = document.getElementsByClassName('icon-badge')[0];
+                const offcanvas = document.getElementsByClassName('sidemenuhide')[0];
+                const bottomNavLinks = document.querySelectorAll(".bottom-nav .nav-link");
+                const bottomNavbar = document.querySelector('.bottom-nav');
+                if (bottomNavbar) {
+                    bottomNavbar.classList.remove('d-none');
+                    const navList = bottomNavbar.querySelector('.navbar-nav');
+                    if (navList) {
+                        navList.classList.remove('gap-3');
+                        navList.classList.add('gap-0');
+                    }
+                }
+                searchbar.classList.add('d-none');
+                offcanvas.classList.add('d-none');
+                icon1.classList.add('d-none');
+                iconbar.classList.add('ms-auto');
+                bottomNavLinks.forEach(link => {
+                    link.classList.add('d-none');
+                });
+                const navList = document.querySelector('.navbar-nav');
+                const Dashboard = document.createElement('p');
+                Dashboard.classList = 'nav-item mt-0';
+                const DashboardLink = document.createElement('a');
+                DashboardLink.className = 'nav-link fs-3 mx-1 mt-3';
+                DashboardLink.style.color = 'White';
+                DashboardLink.style.fontWeight = 600;
+                DashboardLink.textContent = "Seller Dashboard";
+                DashboardLink.href = '/seller/homePage.html';
+                Dashboard.append(DashboardLink);
+                navList.append(Dashboard);                
+                const newLi1 = document.createElement('li');
+                newLi1.className = 'nav-item mt-1';
+                const newLink1 = document.createElement('a');
+                newLink1.className = 'nav-link btn btn-outline-success fs-4 mx-1';
+                newLink1.style.border = 'none';
+                newLink1.style.fontWeight = 500;
+                newLink1.textContent = 'My Products';
+                newLink1.href = '/seller/homePage.html';
+                newLi1.appendChild(newLink1);
+                navList.appendChild(newLi1);
+                const newLi2 = document.createElement('li');
+                newLi2.className = 'nav-item mt-1';
+                const newLink2 = document.createElement('a');
+                newLink2.className = 'nav-link btn btn-outline-success fs-4 mx-1';
+                newLink2.style.border = 'none';
+                newLink2.style.fontWeight = 500;
+                newLink2.textContent = 'Add Products';
+                newLink2.href = '/seller/AddItem.html';
+                newLi2.appendChild(newLink2);
+                navList.appendChild(newLi2);
+            })
+            .catch(error => console.error('Error loading navbar:', error));
+    </script>
+
+    <div class="container-fluid">
+        <div class="row mb-4 mt-4">
+            <div class="col-md-3">
+                <div class="card stat-card primary">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-xs fw-bold text-primary text-uppercase mb-1">Total Products</div>
+                                <div class="h5 mb-0 fw-bold" id="totalProducts"></div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-box fa-2x text-primary-emphasis"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card success">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-xs fw-bold text-success text-uppercase mb-1">Total Sales</div>
+                                <div class="h5 mb-0 fw-bold" id="totalSales">100</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-shopping-cart fa-2x text-success-emphasis"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card info">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-xs fw-bold text-info text-uppercase mb-1">Total Earnings</div>
+                                <div class="h5 mb-0 fw-bold" id="totalEarnings"></div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-info-emphasis"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card warning">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <div class="text-xs fw-bold text-warning text-uppercase mb-1">Pending Orders</div>
+                                <div class="h5 mb-0 fw-bold" id="PendingOrders">20</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-warning-emphasis"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Monthly Sales Overview</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="salesChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Product Categories</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categoryChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Available Products</h5>
+                        <a href="/seller/AddItem.html"><button class="btn btn-sm btn-light" id="addProductBtn">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="productsList">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Recent Orders</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Product</th>
+                                        <th>CustomerID</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentSales">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+    <script>
+        fetch('/include/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+    <script src="../layout/JS/all.min.js"></script>
+    <script src="../layout/JS/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', initializeCharts);
+        const monthlyData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'Sales (EGP)',
+                data: [3800, 5200, 4800, 5500],
+                backgroundColor: 'rgba(78, 115, 223, 0.2)',
+                borderColor: 'rgba(78, 115, 223, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                tension: 0.3
+            }]
+        };
+        const categoryData = {
+            labels: ['Laptops', 'SmartPhones', 'HeadPhones', 'Other'],
+            datasets: [{
+                label: 'Products by Category',
+                data: [42, 28, 17, 13],
+                backgroundColor: [
+                    'rgba(78, 115, 223, 0.8)',
+                    'rgba(28, 200, 138, 0.8)',
+                    'rgba(54, 185, 204, 0.8)',
+                    'rgba(246, 194, 62, 0.8)'
+                ],
+                borderWidth: 1
+            }]
+        };
+        function initializeCharts() {
+            console.log("Initializing charts...");
+            try {
+                const salesChartCtx = document.getElementById('salesChart').getContext('2d');
+                const salesChart = new Chart(salesChartCtx, {
+                    type: 'line',
+                    data: monthlyData,
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    drawBorder: false
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+                const categoryChartCtx = document.getElementById('categoryChart').getContext('2d');
+                const categoryChart = new Chart(categoryChartCtx, {
+                    type: 'pie',
+                    data: categoryData,
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing charts:", error);
+            }
+        }
+        function renderProducts() {
+            const productsList = document.getElementById('productsList');
+            productsList.innerHTML = '';
+            
+            const products = JSON.parse(localStorage.getItem("products")) || [];
+            
+            document.getElementById('totalProducts').textContent = products.length;
+            const sellerId = sessionStorage.getItem('loggedInUserId');
+            products.forEach(product => {
+                if (String(product.sellerId) === String(sellerId)){
+                    const productCard = document.createElement('div');
+                    productCard.className = 'col-md-4 col-lg-3 mb-4';
+                    productCard.innerHTML = `
+                        <div class="card h-100">
+                            <img src="../${product.img}" class="card-img-top product-image" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">
+                                    <span class="badge bg-primary me-2">${product.price} EGP</span>
+                                    <span class="badge ${product.available > 10 ? 'bg-success' : 'bg-warning'}">${product.available} in stock</span>
+                                </p>
+                                <p class="card-text"><small class="text-muted">Category: ${product.category}</small></p>
+                                <p class="card-text"><small class="text-muted">Brand: ${product.description.brand}</small></p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <button class="btn btn-sm btn-outline-primary" onclick="editProduct(${product.id})"><i class="fas fa-edit"></i> Edit</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${product.id})"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+                    `;
+                    productsList.appendChild(productCard);
+                }
+            });
+
+            if (productsList.children.length === 0) {
+                productsList.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No products found. Click "Add Product" to add your first product.</p>
+                    </div>
+                `;
+            }
+            
+            renderOrders();
+        }
+        function renderOrders() {
+            const recentSales = document.getElementById('recentSales');
+            recentSales.innerHTML = '';
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const sellerId = sessionStorage.getItem('loggedInUserId');
+
+            function getSellerIdByProductId(productId) {
+                const product = products.find(p => p.id === productId);
+                return product ? String(product.sellerId) : null;
+            }
+
+            let sellerOrders = [];
+            orders.forEach(order => {
+                const sellerItems = order.items.filter(item => {
+                    return getSellerIdByProductId(item.productId) === sellerId;
+                });
+                if (sellerItems.length > 0) {
+                    const sellerOrder = { ...order, items: sellerItems };
+                    sellerOrders.push(sellerOrder);
+                }
+            });
+
+            const PendingCount = sellerOrders.filter(order => order.status === "Pending").length;
+            document.getElementById('PendingOrders').textContent = PendingCount;
+
+            sellerOrders.forEach(order => {
+                const orderRow = document.createElement('tr');
+                const statusClass = getStatusClass(order.status);
+                const sellerTotal = order.items.reduce((sum, item) => sum + item.total, 0);
+                orderRow.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.items.map(item => item.productName).join(', ')}</td>
+                    <td>${order.userId}</td>
+                    <td>${order.date}</td>
+                    <td>${sellerTotal.toFixed(2)} EGP</td>
+                    <td class="${statusClass}">${order.status}</td>
+                    <td>
+                        <select class="form-select form-select-sm status-select" data-order-id="${order.id}">
+                            <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Canceled" ${order.status === 'Canceled' ? 'selected' : ''}>Canceled</option>
+                        </select>
+                    </td>
+                `;
+                recentSales.appendChild(orderRow);
+            });
+
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', updateOrderStatus);
+            });
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'Pending': return 'status-Pending';
+                case 'Processing': return 'status-Processing';
+                case 'Delivered': return 'status-Delivered';
+                case 'Canceled': return 'status-canceled';
+                default: return '';
+            }
+        }  
+        function updateOrderStatus(event) {
+            const select = event.target;
+            const orderId = select.getAttribute('data-order-id');
+            const newStatus = select.value;
+            
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const orderIndex = orders.findIndex(order => order.id == orderId);
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = newStatus;
+                localStorage.setItem('orders', JSON.stringify(orders)); 
+                const statusCell = select.closest('tr').querySelector('td:nth-child(6)');
+                statusCell.textContent = newStatus;
+                statusCell.className = getStatusClass(newStatus);                
+                const ProcessingCount = orders.filter(order => order.status === "Pending").length;
+                document.getElementById('ProcessingOrders').textContent = ProcessingCount;                
+                // alert(`Order #${orderId} status updated to ${newStatus}`);
+            }
+        }
+
+        function confirmDelete(productId) {
+            if (confirm("Are you sure you want to delete this product? This action cannot be undone.")) {
+                deleteProduct(productId);
+            }
+        }
+        
+        function deleteProduct(productId) {
+            let products = JSON.parse(localStorage.getItem("products")) || [];
+            const productIndex = products.findIndex(product => product.id === productId);
+        
+            if (productIndex !== -1) {
+                products.splice(productIndex, 1);
+                localStorage.setItem("products", JSON.stringify(products));
+                alert("Product deleted successfully!");
+                renderProducts();
+                updateStatistics();
+            } else {
+                alert("Product not found!");
+            }
+        }
+
+        function editProduct(productId) {
+            window.location.href = `Edit.html?productID=${productId}`;
+        }
+
+        function updateStatistics() {
+            const products = JSON.parse(localStorage.getItem("products")) || [];
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            const sellerId = sessionStorage.getItem('loggedInUserId');
+
+            const sellerProducts = products.filter(product => String(product.sellerId) === String(sellerId));
+            document.getElementById('totalProducts').textContent = sellerProducts.length;
+
+            const DeliveredOrders = orders.filter(order => order.status === "Delivered");
+            document.getElementById('totalSales').textContent = DeliveredOrders.length;
+
+            let totalEarnings = 0;
+            DeliveredOrders.forEach(order => {
+                const sellerItems = order.items.filter(item => {
+                    return String(products.find(product => product.id === item.productId).sellerId) === String(sellerId);
+                });
+                sellerItems.forEach(item => {
+                    totalEarnings += item.total;
+                });
+            });
+            document.getElementById('totalEarnings').textContent = `${totalEarnings.toFixed(2)} EGP`;
+        }
+        function updateLoginButton() {
+            const loginBtn = document.getElementById('loginBtn');
+            const loggedInUserId = sessionStorage.getItem('loggedInUserId');
+            const loggedInUserRole = sessionStorage.getItem('loggedInUserRole');
+
+            if (loginBtn) {
+                if (loggedInUserId && loggedInUserRole) {
+                    const userDropdownHTML = `
+                        <div class="dropdown">
+                            <a href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 45px;">
+                                <i class="fa-solid fa-circle-user text-white display-6"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end rounded-3 mt-2" aria-labelledby="userDropdown" style="min-width: 120px;">
+                                <li><a class="dropdown-item small" href="/profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item small text-danger" href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    `;
+                    loginBtn.outerHTML = userDropdownHTML;
+                    setTimeout(() => {
+                        const logoutBtn = document.getElementById('logoutBtn');
+                        if (logoutBtn) {
+                            logoutBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                sessionStorage.removeItem('loggedInUserId');
+                                sessionStorage.removeItem('loggedInUserRole');
+                                window.location.href = '/homePage.html';
+                            });
+                        }
+                    }, 50);
+                }
+            } else {
+                setTimeout(updateLoginButton, 50);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', ()=> {
+            initializeCharts();
+            renderProducts();
+            updateStatistics();
+            updateLoginButton();
+        });
+    </script>
+</body>
+</html>

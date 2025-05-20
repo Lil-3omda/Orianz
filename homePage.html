@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أوريانز للتنمية الزراعية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        .landing {
+            position: relative;
+            overflow: hidden;
+            height: 75vh;
+        }
+        
+        .landing-img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+        
+        .landing-content {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        
+        .landing-content h1 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .landing-content .btn {
+            background-color: #4caf50;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .category-banner {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            height: 250px;
+        }
+        
+        .category-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .category-banner:hover img {
+            transform: scale(1.05);
+        }
+        
+        .category-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(76, 175, 80, 0.8);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .category-overlay h5 {
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .category-overlay a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .new-products-titel {
+            border-right: 4px solid #4caf50;
+            padding-right: 10px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        .product-info h5 {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .product-info .price {
+            color: #4caf50;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .products-list .item {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        
+        .products-list .item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .products-list .item-info {
+            padding-right: 1rem;
+            text-align: right;
+        }
+        
+        .products-list .item-info h6 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .products-list .item-info .price {
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .logo-carousel {
+            background-color: #f9f9f9;
+            padding: 2rem 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 1rem 0;
+        }
+        
+        .logo-container img {
+            height: 60px;
+            margin: 0 1.5rem;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script>
+        fetch('/include/navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navbar:', error));
+    </script>
+
+    <div class="landing">
+        <div class="container-fluid">
+            <div class="row">
+                <img src="./salinas-valley-lettuce-david-litman.jpg" class="landing-img p-0" alt="صورة الصفحة الرئيسية">
+                <div class="landing-content">
+                    <h1>أوريانز للتنمية الزراعية</h1>
+                    <p>نقدم أحدث التقنيات والحلول الزراعية المستدامة</p>
+                    <a href="#topSelling" class="btn text-white rounded-pill">تصفح منتجاتنا<i class="fa-solid fa-arrow-left ms-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container py-4">
+        <div class="row text-center mb-4 ">
+            <div class="col-md-4">
+                <div class="category-banner">
+                    <img src="/imgs/images.jpeg" alt="مبيدات حشرية">
+                    <div class="category-overlay">
+                        <h5>مبيدات حشرية</h5>
+                        <a href="#seeds">تصفح الآن ◂</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-banner">
+                    <img src="/imgs/images (1).jpeg" alt="مبيدات حشائش">
+                    <div class="category-overlay">
+                        <h5>مبيدات حشائش</h5>
+                        <a href="#irrigation">تصفح الآن ◂</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-banner">
+                    <img src="/imgs/image3.jpg" alt="مبيدات فطرية">
+                    <div class="category-overlay">
+                        <h5>مبيدات فطرية</h5>
+                        <a href="#fertilizers">تصفح الآن ◂</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h4 class="mb-3 new-products-titel">أحدث المنتجات</h4>
+        <div class="row new-products">
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="بذور عضوية">
+                    <div class="product-info">
+                        <h5>بذور عضوية ممتازة</h5>
+                        <p class="small text-muted">بذور معتمدة عالية الجودة للزراعة المستدامة</p>
+                        <p class="price">120 ر.س</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="نظام ري بالتنقيط">
+                    <div class="product-info">
+                        <h5>نظام ري بالتنقيط</h5>
+                        <p class="small text-muted">توفير المياه وزيادة كفاءة الري</p>
+                        <p class="price">350 ر.س</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="سماد عضوي">
+                    <div class="product-info">
+                        <h5>سماد عضوي غني بالمغذيات</h5>
+                        <p class="small text-muted">مثالي للزراعة العضوية والمستدامة</p>
+                        <p class="price">85 ر.س</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="شتلات خضروات">
+                    <div class="product-info">
+                        <h5>شتلات خضروات موسمية</h5>
+                        <p class="small text-muted">شتلات صحية جاهزة للزراعة</p>
+                        <p class="price">45 ر.س</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3 new-products-titel" id="topSelling">الأكثر مبيعاً</h4>
+        <div class="row top-selling">
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="مبيدات حشرية عضوية">
+                    <div class="product-info">
+                        <h5>مبيدات حشرية عضوية</h5>
+                        <p class="small text-muted">حماية طبيعية وآمنة للمزروعات</p>
+                        <p class="price">95 ر.س</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="معدات رش">
+                    <div class="product-info">
+                        <h5>معدات رش متطورة</h5>
+                        <p class="small text-muted">توزيع متساوٍ وفعال للمبيدات والمغذيات</p>
+                        <p class="price">220 ر.س</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="محلول تغذية">
+                    <div class="product-info">
+                        <h5>محلول تغذية متكامل</h5>
+                        <p class="small text-muted">يعزز نمو النبات وإنتاجيته</p>
+                        <p class="price">150 ر.س</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="/api/placeholder/300/300" alt="تربة زراعية">
+                    <div class="product-info">
+                        <h5>تربة زراعية مخصبة</h5>
+                        <p class="small text-muted">خليط مثالي لنمو صحي للنباتات</p>
+                        <p class="price">75 ر.س</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md-4 top-rated">
+                <h5 class="mb-3 new-products-titel">الأعلى تقييماً</h5>
+                <div class="products-list">
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="منظومة ري ذكية">
+                        <div class="item-info">
+                            <h6>منظومة ري ذكية</h6>
+                            <p class="price">450 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="بذور فاكهة">
+                        <div class="item-info">
+                            <h6>بذور فواكه مختارة</h6>
+                            <p class="price">110 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="سماد عضوي">
+                        <div class="item-info">
+                            <h6>سماد عضوي بريميوم</h6>
+                            <p class="price">135 ر.س</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 top-view">
+                <h5 class="mb-3 new-products-titel">الأكثر مشاهدة</h5>
+                <div class="products-list">
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="بيوت محمية">
+                        <div class="item-info">
+                            <h6>بيوت محمية مصغرة</h6>
+                            <p class="price">320 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="أدوات بستنة">
+                        <div class="item-info">
+                            <h6>طقم أدوات بستنة</h6>
+                            <p class="price">180 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="بذور أعشاب">
+                        <div class="item-info">
+                            <h6>بذور أعشاب طبية</h6>
+                            <p class="price">65 ر.س</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 top-selling-mini">
+                <h5 class="mb-3 new-products-titel">الأكثر طلباً</h5>
+                <div class="products-list">
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="معدات تقطير">
+                        <div class="item-info">
+                            <h6>معدات تقطير متطورة</h6>
+                            <p class="price">275 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="كومبوست">
+                        <div class="item-info">
+                            <h6>كومبوست عالي الجودة</h6>
+                            <p class="price">90 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/api/placeholder/100/100" alt="أكياس زراعة">
+                        <div class="item-info">
+                            <h6>أكياس زراعة قابلة للتحلل</h6>
+                            <p class="price">55 ر.س</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logo-carousel mb-4">
+        <h4 class="text-center mb-3">شركاؤنا</h4>
+        <div class="logo-container" id="logoContainer">
+            <img src="/api/placeholder/200/100" alt="شريك 1">
+            <img src="/api/placeholder/200/100" alt="شريك 2">
+            <img src="/api/placeholder/200/100" alt="شريك 3">
+            <img src="/api/placeholder/200/100" alt="شريك 4">
+            <img src="/api/placeholder/200/100" alt="شريك 5">
+            <img src="/api/placeholder/200/100" alt="شريك 6">
+        </div>
+    </div>
+    
+   
+
+    
+    <div id="footer"></div>
+    <script>
+        fetch('/include/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer').innerHTML = data;
+            });
+    </script>
+    
+    
+    <script src="/layout/JS/all.min.js"></script>
+    <script src="/layout/JS/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
