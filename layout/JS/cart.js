@@ -57,7 +57,7 @@ function displayData(){
             <p>Please add some products to your cart.</p>
             <hr>
             <p class="mb-0">You can continue shopping by clicking the button below.</p>
-            <a href="/homePage.html" class="btn btn-primary">Continue Shopping</a>
+            <a href="/index.html" class="btn btn-primary">Continue Shopping</a>
         </div>`
     }
     const deleteButtons = document.querySelectorAll(".deleteButton");

@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (user.role === 'seller') {
             window.location.href = `${baseUrl}/seller/homePage.html`;
         } else {
-            window.location.href = `${baseUrl}/homePage.html`;
+            window.location.href = `${baseUrl}/index.html`;
         }
 
     }

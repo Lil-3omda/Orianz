@@ -92,8 +92,8 @@
                             window.location.href = '/seller/Edit.html';
                         }
                     } else if (loggedInUserRole === 'customer') {
-                        if (window.location.pathname !== '/homePage.html') {
-                            window.location.href = '/homePage.html';
+                        if (window.location.pathname !== '/index.html') {
+                            window.location.href = '/index.html';
                         }
                     } else {
                         window.location.href = '/login.html';
@@ -102,7 +102,7 @@
                     window.location.href = '/login.html';
                 }
             } else {
-                window.location.href = '/homePage.html';
+                window.location.href = '/index.html';
             }
         })();
     </script>
@@ -363,7 +363,7 @@
                                 e.preventDefault();
                                 sessionStorage.removeItem('loggedInUserId');
                                 sessionStorage.removeItem('loggedInUserRole');
-                                window.location.href = '/homePage.html';
+                                window.location.href = '/index.html';
                             });
                         }
                     }, 50);
