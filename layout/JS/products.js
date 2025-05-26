@@ -45,44 +45,109 @@ function displayProducts(page) {
   const end = start + productsPerPage;
   const paginatedProducts = products.slice(start, end);
 
-  function renderProducts(productList) {
-    filterableCards.innerHTML = productList
-      .map(
-        (product) => `
-        <div class="card item p-2 m-4 mt-0">
-          <img src="${product.img}" alt="" class="product-card" data-id="${product.id}">
-          <div class="card-body">
-              <h6 class="card-title fs-5">${product.name}</h6>
-              <p class="card-description">${product.category}</p>
-              <p class="card-description">${product.price} EGP</p>
-              <button data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}' class="btn cartBtn">Add to Cart<i class="fa-solid fa-cart-plus ms-1"></i></button>
+function renderProducts(productList) {
+  filterableCards.innerHTML = productList
+    .map(
+      (product) => `
+        <div class="card h-100 shadow-sm border-success border-opacity-25 m-3">
+          <div class="position-relative">
+            <img src="${product.img}" alt="${product.name}" class="card-img-top product-card" style="height: 200px; object-fit: cover; cursor: pointer;" data-id="${product.id}">
+            ${product.hazardLevel ? `
+              <span class="position-absolute top-0 end-0 m-2 badge ${
+                product.hazardLevel.toLowerCase() === 'low' ? 'bg-success' :
+                product.hazardLevel.toLowerCase() === 'medium' ? 'bg-warning text-dark' : 'bg-danger'
+              }">${product.hazardLevel}</span>
+            ` : ''}
+            ${product.discount ? `
+              <span class="position-absolute top-0 start-0 m-2 badge bg-danger">
+                خصم ${product.discount}%
+              </span>
+            ` : ''}
+          </div>
+    
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-success fw-bold mb-1">${product.name}</h5>
+            
+            <!-- Basic Info -->
+            <div class="mb-1">
+              <div class="row g-2 small">
+                <div class="col-12">
+                  <span class="badge bg-light text-dark border me-1">
+                    <i class="fa-solid fa-tag me-1"></i>${product.category}
+                  </span>
+                  ${product.brand ? `
+                    <span class="badge bg-light text-dark border">
+                      <i class="fa-solid fa-building me-1"></i>${product.brand}
+                    </span>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+            <!-- Availability & Stock -->
+            ${product.stock !== undefined ? `
+              <div class="mb-1">
+                <small class="text-muted">
+                  <i class="fa-solid fa-warehouse me-1"></i>
+                  المتوفر: 
+                  <span class="${product.available > 10 ? 'text-success' : product.available > 0 ? 'text-warning' : 'text-danger'}">
+                    ${product.available > 0 ? `${product.available} قطعة` : 'غير متوفر'}
+                  </span>
+                </small>
+              </div>
+            ` : ''}
+            <!-- Price Section -->
+            <div class="mt-auto">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  ${product.originalPrice && product.originalPrice > product.price ? `
+                    <small class="text-muted text-decoration-line-through">${product.originalPrice} جنيه</small><br>
+                  ` : ''}
+                  <span class="h5 text-primary fw-bold mb-0">${product.price} جنيه</span>
+                  ${product.unit ? `<br><small class="text-muted">للـ ${product.unit}</small>` : ''}
+                </div>
+                ${product.minOrder ? `
+                  <small class="text-info">
+                    <i class="fa-solid fa-shopping-basket me-1"></i>
+                    الحد الأدنى: ${product.minOrder}
+                  </small>
+                ` : ''}
+              </div>
+              
+              <button 
+                data-product='${JSON.stringify(product).replace(/'/g, "&apos;")}' 
+                class="btn btn-success w-100 fw-semibold cartBtn ${product.available === 0 ? 'disabled' : ''}"
+                ${product.available === 0 ? 'disabled' : ''}>
+                <i class="fa-solid fa-cart-plus me-2"></i>
+                ${product.available === 0 ? 'غير متوفر' : 'اضف الي السلة'}
+              </button>
+            </div> 
           </div>
         </div>
-      `
-      )
-      .join("");
-  }
+        `
+    )
+    .join("");
+}
 
-  function setActiveFilter(activeId) {
-    ["all", "best-seller", "premium", "economic"].forEach((id) => {
-      document.getElementById(id).classList.toggle("active", id === activeId);
-    });
-  }
+  // function setActiveFilter(activeId) {
+  //   ["all", "best-seller", "premium", "economic"].forEach((id) => {
+  //     document.getElementById(id).classList.toggle("active", id === activeId);
+  //   });
+  // }
 
-  const filters = {
-    "all": () => products,
-    "best-seller": () => products.filter((product) => product.sold >= 50),
-    "premium": () => products.filter((product) => product.price >= 60000),
-    "economic": () => products.filter((product) => product.price <= 800),
-  };
+  // const filters = {
+  //   "all": () => products,
+  //   "best-seller": () => products.filter((product) => product.sold >= 50),
+  //   "premium": () => products.filter((product) => product.price >= 60000),
+  //   "economic": () => products.filter((product) => product.price <= 800),
+  // };
 
-  Object.keys(filters).forEach((filterId) => {
-    const element = document.getElementById(filterId);
-    element.addEventListener("click", () => {
-      setActiveFilter(filterId);
-      renderProducts(filters[filterId]());
-    });
-  });
+  // Object.keys(filters).forEach((filterId) => {
+  //   const element = document.getElementById(filterId);
+  //   element.addEventListener("click", () => {
+  //     setActiveFilter(filterId);
+  //     renderProducts(filters[filterId]());
+  //   });
+  // });
 
   renderProducts(paginatedProducts);
 
@@ -108,7 +173,7 @@ function setupPagination() {
 
   const prev = document.createElement("li");
   prev.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-  prev.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+  prev.innerHTML = `<a class="page-link" href="#">السابقة</a>`;
   prev.addEventListener("click", () => {
     if (currentPage > 1) {
       currentPage--;
@@ -132,7 +197,7 @@ function setupPagination() {
 
   const next = document.createElement("li");
   next.className = `page-item ${currentPage === pageCount ? "disabled" : ""}`;
-  next.innerHTML = `<a class="page-link" href="#">Next</a>`;
+  next.innerHTML = `<a class="page-link" href="#">التالية</a>`;
   next.addEventListener("click", () => {
     if (currentPage < pageCount) {
       currentPage++;
