@@ -1,25 +1,37 @@
 import { decreaseQuantity, getCart, increaseQuantity, removeFromCart, addToCart } from "./cartHandler.js";
-function displayData(){
-    const main_body= document.querySelector(".main");
+function displayData() {
+    const main_body = document.querySelector(".main");
     const cart_body = document.querySelector("#cart-body");
     const total_price = document.querySelector("#totalPrice");
     const subTotal = document.querySelector("#Subtotal");
-    let total = 400;
+    const checkoutBtn = document.getElementById("checkoutBtn");
+
     let subtotal = 0;
+    let total = 0;
+    let anyOutOfStock = false;
+
     cart_body.innerHTML = "";
     const userId = sessionStorage.getItem("loggedInUserId") || "0";
+
     if (userId !== "0") {
-        (getCart(0) || []).forEach(item => addToCart(item.productData));
+        const oldCart = getCart(0) || [];
+        oldCart.forEach(item => {
+            addToCart(item.productData, item.quantity);
+        });
         localStorage.removeItem('cart_0');
     }
+
     let products = getCart(userId) || [];
-    if(products && products.length>0){
+    if (products.length > 0) {
         products.forEach((item) => {
             const productData = JSON.parse(item.productData);
             const quantity = item.quantity;
+
             subtotal += productData.price * quantity;
-            subTotal.innerHTML=`${subtotal} EGP`;
-            total_price.innerHTML=`${subtotal+total} EGP`;
+            if (quantity > productData.available) {
+                anyOutOfStock = true;
+            }
+
             const cartItem = document.createElement("div");
             cartItem.className = "row cart-item mb-3";
             cartItem.innerHTML = `
@@ -37,62 +49,121 @@ function displayData(){
                         -</button>
                         <input style="max-width:100px" type="text" class="form-control form-control-sm text-center quantity-input" value="${quantity}">
                         <button class="btn btn-sm increaseButton"
-                        type="button" data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'>+</button>
+                            type="button" 
+                            data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'
+                            ${quantity >= productData.available ? `disabled ` : ""}
+                        >+</button>
                     </div>
                 </div>
                 <div class="col-md-2 text-end">
-                    <p class="fw-bold">${productData.price * quantity} EGP</p>
+                    <p class="fw-bold">${productData.price * quantity} جنيه</p>
                     <button class="btn btn-sm deleteButton"
-                    data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'>
-                        <i class="fa fa-trash"></i>
-                    </button>`
-                cart_body.appendChild(cartItem);
-                const hr = document.createElement("hr");
-                hr.className = "my-3";
-                cart_body.appendChild(hr);
-    })
-    }else{
-        main_body.innerHTML=`<div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Your cart is empty!</h4>
-            <p>Please add some products to your cart.</p>
-            <hr>
-            <p class="mb-0">You can continue shopping by clicking the button below.</p>
-            <a href="/index.html" class="btn btn-primary">Continue Shopping</a>
-        </div>`
+                    data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'><i class="fa fa-trash"></i></button>
+                </div>
+                <p class="text-center text-danger fw-semibold mt-2 ${quantity >= productData.available ? '' : 'd-none'}">
+                    <i class="fa fa-exclamation-circle me-1"></i>
+                    Only ${productData.available} unit(s) of "<span class="fw-bold">${productData.name}</span>" available in stock.
+                </p>`;
+
+            cart_body.appendChild(cartItem);
+            const hr = document.createElement("hr");
+            hr.className = "my-3";
+            cart_body.appendChild(hr);
+
+            document.querySelectorAll(".quantity-input").forEach(input => {
+            input.addEventListener("change", (e) => {
+                const newQuantity = parseInt(e.target.value);
+                const productData = JSON.parse(e.target.closest(".cart-item").querySelector(".increaseButton").dataset.product);
+                
+                if (isNaN(newQuantity) || newQuantity <= 0) {
+                    showToast("Please enter a valid positive number.", "warning");
+                    displayData();
+                    return;
+                }
+
+                if (newQuantity > productData.available) {
+                    showToast(`Only ${productData.available} units available for "${productData.name}".`, "danger");
+                    displayData();
+                    return;
+                }
+
+                // Update the quantity in localStorage
+                const userId = sessionStorage.getItem("loggedInUserId") || "0";
+                let cart = getCart(userId) || [];
+                const itemIndex = cart.findIndex(item => JSON.parse(item.productData).id === productData.id);
+                if (itemIndex !== -1) {
+                    cart[itemIndex].quantity = newQuantity;
+                    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
+                }
+
+                displayData();
+            });
+        });
+
+        });
+
+        subTotal.innerHTML = `${subtotal} جنيه`;
+        total_price.innerHTML = `${subtotal + total} جنيه`;
+    } else {
+        main_body.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Your cart is empty!</h4>
+                <p>Please add some products to your cart.</p>
+                <hr>
+                <p class="mb-0">You can continue shopping by clicking the button below.</p>
+                <a href="/homePage.html" class="btn btn-danger m-1">Continue Shopping</a>
+            </div>`;
     }
-    const deleteButtons = document.querySelectorAll(".deleteButton");
-    deleteButtons.forEach((button) => {
+
+    // Disable checkout button if any item exceeds available quantity
+    if (checkoutBtn) {
+        checkoutBtn.disabled = anyOutOfStock;
+        checkoutBtn.classList.toggle("disabled", anyOutOfStock);
+        checkoutBtn.title = anyOutOfStock ? "One or more items exceed available stock" : "";
+    }
+
+    // Setup button handlers
+    document.querySelectorAll(".deleteButton").forEach(button => {
         button.addEventListener("click", (e) => {
-            const productId = JSON.parse(e.target.dataset.product).id;
+            const productId = JSON.parse(e.currentTarget.dataset.product).id;
             removeFromCart(productId);
             displayData();
         });
     });
 
-const input = document.querySelector(".quantity-input");
-const increaseButtons = document.querySelectorAll(".increaseButton");
-increaseButtons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-        console.log("Increase button clicked");
-        const productId = JSON.parse(e.target.dataset.product).id;
-        increaseQuantity(productId);
-        displayData(); 
-    });
-})
-    const decreaseButtons = document.querySelectorAll(".decreaseButton");
-    decreaseButtons.forEach((button) => {
+    document.querySelectorAll(".increaseButton").forEach(button => {
         button.addEventListener("click", (e) => {
-            console.log("decrease button clicked");
-            const productId = JSON.parse(e.target.dataset.product).id;
+            const productId = JSON.parse(e.currentTarget.dataset.product).id;
+            increaseQuantity(productId);
+            displayData();
+        });
+    });
+
+    document.querySelectorAll(".decreaseButton").forEach(button => {
+        button.addEventListener("click", (e) => {
+            const productId = JSON.parse(e.currentTarget.dataset.product).id;
             decreaseQuantity(productId);
             displayData();
+        });
     });
-})    
 }
+
 displayData();
 
 function checkout() {
-    const userId = sessionStorage.getItem("loggedInUserId") || "0";
+    const userId = sessionStorage.getItem("loggedInUserId");
+    const loggedInStatus = sessionStorage.getItem("loggedInUserStatus");
+
+    if (!userId || userId === "0") {
+        window.location.href = "../../signUpdate/login.html";
+        return;
+    }
+
+    if (loggedInStatus !== "enabled") {
+        showToast("⏳ Your account is not active yet. Please wait 24 hours for approval.", "danger");
+        return;
+    }
+
     const cart = getCart(userId) || [];
     let allAvailable = true;
     let products = JSON.parse(localStorage.getItem("products")) || [];
@@ -111,6 +182,7 @@ function checkout() {
             break;
         }
     }
+
     if (allAvailable) {
         for (let item of cart) {
             const productInCart = JSON.parse(item.productData);
@@ -121,9 +193,10 @@ function checkout() {
                 products[productIndex].sold += quantity;
             }
         }
+
         const newOrder = {
             id: `order_${new Date().getTime()}`,
-            userId: userId,
+            userId: Number(userId),
             items: cart.map(item => ({
                 productId: JSON.parse(item.productData).id,
                 productName: JSON.parse(item.productData).name,
@@ -132,7 +205,7 @@ function checkout() {
                 total: item.quantity * JSON.parse(item.productData).price
             })),
             totalAmount: cart.reduce((total, item) => total + item.quantity * JSON.parse(item.productData).price, 0),
-            status: "Pending", 
+            status: "Pending",
             date: new Date().toLocaleString()
         };
 
@@ -140,13 +213,39 @@ function checkout() {
         localStorage.setItem("orders", JSON.stringify(orders));
         localStorage.setItem("products", JSON.stringify(products));
         localStorage.removeItem(`cart_${userId}`);
-        alert("Checkout successful!");
-        location.reload();
+
+        showToast("Checkout complete! Your items will be on their way soon.", "dark");
+        setTimeout(() => location.reload(), 3000);
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.getElementById("checkoutBtn");
     if (checkoutBtn) {
         checkoutBtn.addEventListener("click", checkout);
     }
 });
+function showToast(message, type = "info") {
+    console.log("showToast called with message:", message);
+    const toast = document.createElement("div");
+    toast.className = `alert alert-${type}`;
+    toast.style.position = "fixed";
+    toast.style.top = "20%";
+    toast.style.height="100px"
+    toast.style.right = "35%";
+    toast.style.zIndex = 9999;
+    toast.style.minWidth = "300px";
+    toast.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
+    toast.style.borderRadius = "5px";
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+    console.log("Toast added to DOM");
+
+    setTimeout(() => {
+        console.log("Removing toast now");
+        toast.remove();
+    }, 3000);
+}
+
+

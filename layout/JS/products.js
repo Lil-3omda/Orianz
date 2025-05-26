@@ -84,17 +84,18 @@ function renderProducts(productList) {
               </div>
             </div>
             <!-- Availability & Stock -->
-            ${product.stock !== undefined ? `
+            ${product.available !== undefined ? `
               <div class="mb-1">
                 <small class="text-muted">
                   <i class="fa-solid fa-warehouse me-1"></i>
                   المتوفر: 
                   <span class="${product.available > 10 ? 'text-success' : product.available > 0 ? 'text-warning' : 'text-danger'}">
-                    ${product.available > 0 ? `${product.available} قطعة` : 'غير متوفر'}
+                    ${product.available > 0 ? `${product.available} عبوة` : 'غير متوفر'}
                   </span>
                 </small>
               </div>
             ` : ''}
+
             <!-- Price Section -->
             <div class="mt-auto">
               <div class="d-flex justify-content-between align-items-center mb-2">
@@ -120,6 +121,7 @@ function renderProducts(productList) {
                 <i class="fa-solid fa-cart-plus me-2"></i>
                 ${product.available === 0 ? 'غير متوفر' : 'اضف الي السلة'}
               </button>
+
             </div> 
           </div>
         </div>

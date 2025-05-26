@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Page Not Found</title>
+  <title>الصفحة غير موجودة</title>
 </head>
 <body>
   <div id="navbar"></div>
@@ -13,14 +13,14 @@
       .then(data => {
         document.getElementById('navbar').innerHTML = data;
       })
-      .catch(error => console.error('Error loading navbar:', error));
+      .catch(error => console.error('خطأ في تحميل شريط التنقل:', error));
   </script>
 
   <div class="container text-center py-5">
     <h1 class="display-1 text-danger">404</h1>
-    <h2 class="mb-4">Oops! Page Not Found</h2>
-    <p class="mb-4">The page you’re looking for doesn’t exist or was moved.</p>
-    <a href="/index.html" onclick="navigateTo('/'); return false;" class="btn btn-primary">Back to Home</a>
+    <h2 class="mb-4">عذرًا! الصفحة غير موجودة</h2>
+    <p class="mb-4">الصفحة التي تبحث عنها غير موجودة أو تم نقلها.</p>
+    <a href="/index.html" onclick="navigateTo('/'); return false;" class="btn btn-primary">العودة إلى الصفحة الرئيسية</a>
   </div>
 
   <div id="footer"></div>
@@ -46,9 +46,9 @@
                   <i class="fa-solid fa-circle-user text-white display-6"></i>
               </a>
               <ul class="dropdown-menu dropdown-menu-end rounded-3 mt-2" aria-labelledby="userDropdown" style="min-width: 120px;">
-                  <li><a class="dropdown-item small" href="/profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+                  <li><a class="dropdown-item small" href="/profile.html"><i class="fa-solid fa-user"></i> الملف الشخصي</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item small text-danger" href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                  <li><a class="dropdown-item small text-danger" href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i> تسجيل الخروج</a></li>
               </ul>
             </div>
           `;
