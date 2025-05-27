@@ -5,34 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/layout/CSS/all.min.css">
     <link rel="stylesheet" href="/layout/CSS/bootstrap.min.css">
-    <title>الملف الشخصي</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .profile-role {
-            background-color: #e7f1ff;
-            color: #0d6efd;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .section-heading {
-            color: #0d6efd;
-            border-bottom: 1px solid #dee2e6;
-            padding-bottom: 10px;
-            margin-bottom: 16px;
-        }
-        .info-label {
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 5px;
-        }
-        .order-item {
-            background-color: #f1f8ff;
-            font-weight: 500;
-        }
+    <title>الملف الشخصي للمستخدم</title>
+     <style>
+    body {
+        background-color: #f8f9fa !important;
+        color: #000 !important;
+    }
+
+    .profile-role {
+        background-color: #fbe4e7 !important;
+        color: #b8001c !important;
+        padding: 6px 12px !important;
+        border-radius: 20px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+    }
+
+    .section-heading {
+        color: #b8001c !important;
+        border-bottom: 1px solid #dee2e6 !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .info-label {
+        font-weight: 600 !important;
+        color: #000 !important;
+        margin-bottom: 5px !important;
+    }
+
+    .order-item {
+        background-color: #fff0f1 !important;
+        font-weight: 500 !important;
+        border-left: 4px solid #b8001c !important;
+    }
+
+    .chat-bubble {
+        max-width: 75% !important;
+        padding: 10px 15px !important;
+        border-radius: 20px !important;
+        margin: 8px 0 !important;
+        position: relative !important;
+        word-wrap: break-word !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    }
+
+    .user-bubble {
+        background-color: #ffe6e9 !important;
+        align-self: flex-start !important;
+        margin-right: auto !important;
+    }
+
+    .admin-bubble {
+        background-color: #e6e6e6 !important;
+        align-self: flex-end !important;
+        margin-left: auto !important;
+    }
+
+    .message-text {
+        font-size: 20px !important;
+        color: #000 !important;
+    }
+
+    .message-time {
+        font-size: 10px !important;
+        text-align: right !important;
+        margin-top: 5px !important;
+        color: #666 !important;
+    }
+
+    #messageThread {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .btn-primary {
+        background-color: #b8001c !important;
+        border-color: #b8001c !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #a00018 !important;
+        border-color: #a00018 !important;
+    }
+    .btn-primary:focus{
+         background-color: #a00018 !important;
+         border-color: #a00018 !important;
+         outline: none;
+    }
+
+    .form-label,
+    .form-control {
+        color: #000 !important;
+    }
     </style>
 </head>
 <body>
@@ -47,16 +112,14 @@
                 search.classList.add('d-none');
                 iconbar.classList.add('ms-auto');
             })
-            .catch(error => console.error('Error loading navbar:', error));
+            .catch(error => console.error('خطأ في تحميل شريط التنقل:', error));
     </script>
 
     <div class="container py-4">
         <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="mb-0 text-primary">ملفي الشخصي</h1>
-                    <span class="profile-role" id="userRole">عميل</span>
-                </div>
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <h1 class="text-danger mb-0">ملفي الشخصي</h1>
+                <span class="profile-role" id="userRole">جاري التحميل...</span>
             </div>
         </div>
 
@@ -64,67 +127,397 @@
 
         <div class="card shadow-sm mb-4">
             <div class="card-body">
-                <div class="mb-4">
-                    <h2 class="section-heading">المعلومات الشخصية</h2>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="info-label">الاسم</div>
-                            <div id="userName">جاري التحميل...</div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="info-label">البريد الإلكتروني</div>
-                            <div id="userEmail">جاري التحميل...</div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="info-label">رقم الهوية</div>
-                            <div id="userId">جاري التحميل...</div>
-                        </div>
+                <h2 class="section-heading">المعلومات الشخصية</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="info-label">الاسم</div>
+                        <div id="userName">جاري التحميل...</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="info-label">البريد الإلكتروني</div>
+                        <div id="userEmail">جاري التحميل...</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="info-label">الرقم التعريفي</div>
+                        <div id="userId">جاري التحميل...</div>
                     </div>
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <!-- Address -->
+                <div class="mb-4">
+                    <div class="info-label">العنوان</div>
+                    <div id="userAddress">جاري التحميل...</div>
+                    <form id="addressForm" class="mt-2">
+                        <div class="input-group">
+                            <input type="text" id="addressInput" class="form-control" placeholder="تعديل العنوان">
+                            <button type="submit" class="btn btn-success">حفظ العنوان</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-4">
                     <div class="info-label">رقم الهاتف</div>
-                    <input type="tel" id="userPhone" class="form-control mb-2" placeholder="01000000000" pattern="01[0-9]{9}" required>
-                    <button class="btn btn-primary mt-2" id="savePhoneBtn">حفظ رقم الهاتف</button>
+                    <div id="userPhone">جاري التحميل...</div>
+                    <form id="phoneForm" class="mt-2">
+                        <div class="input-group">
+                            <input type="text" id="phoneInput" class="form-control" placeholder="تعديل رقم الهاتف">
+                            <button type="submit" class="btn btn-success" id="savePhoneBtn">حفظ الرقم</button>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="mb-4">
-                    <h2 class="section-heading">معلومات العنوان</h2>
+                <!-- Messaging -->
+                 <div class="mt-5">
+                    <h2 class="section-heading">إرسال رسالة للمسؤول</h2>
                     <div class="mb-3">
-                        <div class="info-label">العنوان الحالي</div>
-                        <div id="userAddress">لم يتم التحديد</div>
+                        <textarea id="userMessage" class="form-control" rows="3" placeholder="اكتب رسالتك هنا..."></textarea>
+                        <button class="btn btn-primary mt-2" id="sendMessageBtn">إرسال</button>
                     </div>
-
-                    <div class="mt-4">
-                        <form id="addressForm">
-                            <div class="mb-3">
-                                <label for="addressInput" class="form-label">تحديث العنوان</label>
-                                <textarea id="addressInput" class="form-control" rows="3" placeholder="أدخل عنوانك الكامل"></textarea>
-                            </div>
-                            <button type="submit" id="saveAddressBtn" class="btn btn-primary">حفظ العنوان</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div id="orderHistorySection">
-                    <h2 class="section-heading">سجل الطلبات</h2>
-                    <ul class="list-group" id="orderHistory">
-                        <li class="list-group-item">جاري تحميل الطلبات...</li>
-                    </ul>
+                    <h5 class="mt-4">الردود من المسؤول</h5>
+                    <ul class="list-group" id="messageThread"></ul>
                 </div>
             </div>
         </div>
+
+
+        <div id="orderHistorySection">
+                    <h2 class="section-heading">سجل الطلبات</h2>
+                    <ul class="list-group" id="orderHistory">
+                        <li class="list-group-item">جاري التحميل...</li>
+                    </ul>
+        </div>
     </div>
 
-    <!-- Scripts remain the same -->
-    <script src="/layout/JS/all.min.js"></script>
-    <script src="/layout/JS/bootstrap.bundle.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const userId = document.getElementById('userId');
+            const userRole = document.getElementById('userRole');
+            const userAddress = document.getElementById('userAddress');
+            const addressInput = document.getElementById('addressInput');
+            const addressForm = document.getElementById('addressForm');
+            const phoneForm = document.getElementById('phoneForm');
+            const orderHistory = document.getElementById('orderHistory');
+            const orderHistorySection = document.getElementById('orderHistorySection');
+            const alertContainer = document.getElementById('alertContainer');
+            const currentUserId = parseInt(sessionStorage.getItem('loggedInUserId'));
+            
+            const phoneInput = document.getElementById('phoneInput');
+            phoneInput.addEventListener('input', function () {
+                const phonePattern = /^01[0-9]{9}$/;
+                if (!phonePattern.test(phoneInput.value)) {
+                    phoneInput.setCustomValidity("Phone number must start with 01 and be 11 digits.");
+                } else {
+                    phoneInput.setCustomValidity("");
+                }
+            });
+
+            function loadUserData() {
+                try {
+                    const storeData = JSON.parse(localStorage.getItem('userData'));
+                    let currentUser = null;
+                    if (storeData.customers && Array.isArray(storeData.customers)) {
+                        currentUser = storeData.customers.find(customer => customer.id === currentUserId);
+                    }
+                    if (!currentUser && storeData.admin && Array.isArray(storeData.admin)) {
+                        currentUser = storeData.admin.find(admin => admin.id === currentUserId);
+                    }                    
+                    if (!currentUser && storeData.sellers && Array.isArray(storeData.sellers)) {
+                        currentUser = storeData.sellers.find(seller => seller.id === currentUserId);
+                    }
+                    if (!currentUser) {
+                        showAlert(`User with ID ${currentUserId} not found.`, 'danger');
+                        return;
+                    }                    
+                    displayUserData(currentUser);
+                    
+                } catch (error) {
+                    showAlert('Error loading user data: ' + error.message, 'danger');
+                }
+            }
+
+            function displayUserData(user) {
+                userName.textContent = user.name;
+                userEmail.textContent = user.email;
+                userId.textContent = user.id;
+                userRole.textContent = user.role;
+
+                userAddress.textContent = user.address || 'Not specified';
+                addressInput.value = user.address || '';
+                document.getElementById('userPhone').textContent = user.phone || 'Not specified';
+                document.getElementById('phoneInput').value = user.phone || '';
+
+
+                const allOrders = JSON.parse(localStorage.getItem('orders')) || [];
+                const userOrders = allOrders.filter(order => String(order.userId) === String(user.id));
+                if (userOrders.length > 0) {
+                    userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    orderHistory.innerHTML = '';
+                    if (userOrders.length >= 1) {
+                        const previousOrders = userOrders.slice(0);
+                        previousOrders.forEach(order => {
+                            const orderItem = document.createElement('li');
+                            orderItem.className = 'list-group-item order-item';
+                            orderItem.innerHTML = `
+                                <strong>رقم الطلب:</strong> ${order.id}<br>
+                                <strong>التاريخ:</strong> ${order.date}<br>
+                                <strong>الحالة:</strong> ${order.status}<br>
+                                <strong>الإجمالي:</strong> جنيه ${order.totalAmount}<br>
+                                <strong>العناصر:</strong>
+                                <ul>
+                                    ${order.items.map(item => `
+                                        <li>${item.productName} (x${item.quantity}) - جنيه ${item.total}</li>
+                                    `).join('')}
+                                </ul>
+                            `;
+                            orderHistory.appendChild(orderItem);
+                        });
+                    } else {
+                        orderHistory.innerHTML = '<li class="list-group-item">No previous orders found.</li>';
+                    }
+                }
+            }
+            function savePhone(newPhone) {
+                try {
+                    const storeData = JSON.parse(localStorage.getItem('userData'));
+                    if (!storeData) {
+                        showAlert('No data found in localStorage.', 'danger');
+                        return false;
+                    }
+                    let userUpdated = false;
+                    if (storeData.customers && Array.isArray(storeData.customers)) {
+                        const customerIndex = storeData.customers.findIndex(c => c.id === currentUserId);
+                        if (customerIndex !== -1) {
+                            storeData.customers[customerIndex].phone = newPhone;
+                            userUpdated = true;
+                        }
+                    }
+                    if (!userUpdated && storeData.admin && Array.isArray(storeData.admin)) {
+                        const adminIndex = storeData.admin.findIndex(a => a.id === currentUserId);
+                        if (adminIndex !== -1) {
+                            storeData.admin[adminIndex].phone = newPhone;
+                            userUpdated = true;
+                        }
+                    }
+                    if (!userUpdated && storeData.sellers && Array.isArray(storeData.sellers)) {
+                        const sellerIndex = storeData.sellers.findIndex(s => s.id === currentUserId);
+                        if (sellerIndex !== -1) {
+                            storeData.sellers[sellerIndex].phone = newPhone;
+                            userUpdated = true;
+                        }
+                    }
+                    if (!userUpdated) {
+                        showAlert(`User with ID ${currentUserId} not found.`, 'danger');
+                        return false;
+                    }
+                    localStorage.setItem('userData', JSON.stringify(storeData));
+                    return true;
+                } catch (error) {
+                    showAlert('Error saving phone number: ' + error.message, 'danger');
+                    return false;
+                }
+            }
+            function saveAddress(newAddress) {
+                try {
+                    const storeData = JSON.parse(localStorage.getItem('userData'));
+                    if (!storeData) {
+                        showAlert('No data found in localStorage.', 'danger');
+                        return false;
+                    }  
+                    let userUpdated = false;
+                    if (storeData.customers && Array.isArray(storeData.customers)) {
+                        const customerIndex = storeData.customers.findIndex(customer => customer.id === currentUserId);
+                        if (customerIndex !== -1) {
+                            storeData.customers[customerIndex].address = newAddress;
+                            userUpdated = true;
+                        }
+                    }                    
+                    if (!userUpdated && storeData.admin && Array.isArray(storeData.admin)) {
+                        const adminIndex = storeData.admin.findIndex(admin => admin.id === currentUserId);
+                        if (adminIndex !== -1) {
+                            storeData.admin[adminIndex].address = newAddress;
+                            userUpdated = true;
+                        }
+                    }
+                    if (!userUpdated && storeData.sellers && Array.isArray(storeData.sellers)) {
+                        const sellerIndex = storeData.sellers.findIndex(seller => seller.id === currentUserId);
+                        if (sellerIndex !== -1) {
+                            storeData.sellers[sellerIndex].address = newAddress;
+                            userUpdated = true;
+                        }
+                    }
+                    if (!userUpdated) {
+                        showAlert(`User with ID ${currentUserId} not found.`, 'danger');
+                        return false;
+                    }
+                    localStorage.setItem('userData', JSON.stringify(storeData));
+                    return true;
+                    
+                } catch (error) {
+                    showAlert('Error saving address: ' + error.message, 'danger');
+                    return false;
+                }
+            }
+            function showAlert(message, type = 'success') {
+                alertContainer.className = `alert alert-${type}`;
+                alertContainer.textContent = message;
+                alertContainer.classList.remove('d-none');
+                setTimeout(() => {
+                    alertContainer.classList.add('d-none');
+                }, 5000);
+            }
+            addressForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const newAddress = addressInput.value.trim();                
+                if (!newAddress) {
+                    showAlert('Please enter a valid address.', 'danger');
+                    return;
+                }  
+                const success = saveAddress(newAddress);
+                if (success) {
+                    userAddress.textContent = newAddress;
+                    showAlert('Address updated successfully!');
+                }
+                if (success) {
+                    document.getElementById('userPhone').textContent = newPhone;
+                    showAlert('Phone number updated successfully!', 'success');
+                }
+            });
+            phoneForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const newPhone = phoneInput.value; 
+                if (!newPhone) {
+                    showAlert('Please enter a valid phone number.', 'danger');
+                    return;
+                }  
+                const success = savePhone(newPhone);
+                if (success) {
+                    document.getElementById('userPhone').textContent = newPhone;
+                    showAlert('Phone number updated successfully!', 'success');
+                } else {
+                    showAlert('Failed to update phone number.', 'danger');
+                }
+            });
+            const savePhoneBtn = document.getElementById('savePhoneBtn');
+            savePhoneBtn.addEventListener('click', function () {
+                const newPhone = phoneInput.value;
+                const phonePattern = /^01[0-9]{9}$/;
+
+                if (!phonePattern.test(newPhone)) {
+                    showAlert('Invalid phone number. Must start with 01 and be 11 digits.', 'danger');
+                    return;
+                }
+
+                const success = savePhone(newPhone);
+                if (success) {
+                    showAlert('Phone number updated successfully!', 'success');
+                }
+            });
+            loadUserData();
+
+             //commucation with admin
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            const userMessage = document.getElementById('userMessage');
+            const messageThread = document.getElementById('messageThread');
+
+            function loadMessages() {
+                const allMessages = JSON.parse(localStorage.getItem('adminMessages')) || [];
+                const conversation = allMessages.filter(msg => msg.userId === currentUserId);
+                
+                messageThread.innerHTML = '';
+                conversation.forEach(msg => {
+                    const item = document.createElement('li');
+                    item.className = 'list-group-item';
+                    item.innerHTML = `
+                        <div class="chat-bubble ${msg.sender === 'admin' ? 'admin-bubble' : 'user-bubble'}">
+                            <div class="message-text">${msg.message}</div>
+                            <div class="message-time">${new Date(msg.timestamp).toLocaleString()}</div>
+                        </div>
+                    `;
+                    item.classList.add('border-0', 'bg-transparent', 'p-0');
+
+                    messageThread.appendChild(item);
+                });
+            }
+            sendMessageBtn.addEventListener('click', function () {
+                const msg = userMessage.value.trim();
+                if (!msg) {
+                    showAlert('Please enter a message.', 'danger');
+                    return;
+                }
+
+                const allMessages = JSON.parse(localStorage.getItem('adminMessages')) || [];
+                allMessages.push({
+                    userId: currentUserId,
+                    sender: 'user',
+                    message: msg,
+                    timestamp: new Date().toISOString()
+                });
+
+                localStorage.setItem('adminMessages', JSON.stringify(allMessages));
+                userMessage.value = '';
+                loadMessages();
+                showAlert('Message sent to admin!');
+            });
+            loadMessages();
+        });
+        function updateLoginButton() {
+            const loginBtn = document.getElementById('loginBtn');
+            const loggedInUserId = sessionStorage.getItem('loggedInUserId');
+            const loggedInUserRole = sessionStorage.getItem('loggedInUserRole');
+
+            if (loginBtn) {
+                if (loggedInUserId && loggedInUserRole) {
+                    let dashboardItem = '';
+                    if (loggedInUserRole === 'seller') {
+                        dashboardItem = `<li><a class="dropdown-item small" href="/seller/homePage.html"><i class="fa-solid fa-gauge-high"></i>Seller Dashboard</a></li>`;
+                    } else if (loggedInUserRole === 'admin') {
+                        dashboardItem = `<li><a class="dropdown-item small" href="/admin/admin.html"><i class="fa-solid fa-chart-line"></i> Admin Dashboard</a></li>`;
+                    }
+
+                    const userDropdownHTML = `
+                        <div class="dropdown">
+                            <a href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 45px; height: 45px;">
+                                <i class="fa-solid fa-circle-user text-white display-6"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end rounded-3 mt-2" aria-labelledby="userDropdown" style="min-width: 120px;">
+                                <li><a class="dropdown-item small" href="/profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+                                ${dashboardItem}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item small text-danger" href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    `;
+
+                    loginBtn.outerHTML = userDropdownHTML;
+
+                    setTimeout(() => {
+                        const logoutBtn = document.getElementById('logoutBtn');
+                        if (logoutBtn) {
+                            logoutBtn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                sessionStorage.removeItem('loggedInUserId');
+                                sessionStorage.removeItem('loggedInUserRole');
+                                window.location.href = '/homePage.html';
+                            });
+                        }
+                    }, 50);
+                }
+            } else {
+                setTimeout(updateLoginButton, 50);
+            }
+        }
+    </script>
     <script type="module">
-        import { updateCartCount } from './layout/JS/cartHandler.js';
-        document.addEventListener('DOMContentLoaded', function () {
+        import { updateCartCount  } from './layout/JS/cartHandler.js';
+        document.addEventListener('DOMContentLoaded', function() {
             updateLoginButton();
             updateCartCount();
-        });
+        });     
     </script>
+    <script src="/layout/JS/bootstrap.bundle.min.js"></script>
+    <script src="/layout/JS/profile.js"></script>
 </body>
 </html>

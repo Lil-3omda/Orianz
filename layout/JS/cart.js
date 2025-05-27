@@ -56,7 +56,7 @@ function displayData() {
                     </div>
                 </div>
                 <div class="col-md-2 text-end">
-                    <p class="fw-bold">${productData.price * quantity} جنيه</p>
+                    <p class="fw-bold">${productData.price * quantity} EGP</p>
                     <button class="btn btn-sm deleteButton"
                     data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'><i class="fa fa-trash"></i></button>
                 </div>
@@ -102,8 +102,8 @@ function displayData() {
 
         });
 
-        subTotal.innerHTML = `${subtotal} جنيه`;
-        total_price.innerHTML = `${subtotal + total} جنيه`;
+        subTotal.innerHTML = `${subtotal} EGP`;
+        total_price.innerHTML = `${subtotal + total} EGP`;
     } else {
         main_body.innerHTML = `
             <div class="alert alert-danger" role="alert">
@@ -152,17 +152,17 @@ displayData();
 
 function checkout() {
     const userId = sessionStorage.getItem("loggedInUserId");
-    const loggedInStatus = sessionStorage.getItem("loggedInUserStatus");
+    // const loggedInStatus = sessionStorage.getItem("loggedInUserStatus");
 
     if (!userId || userId === "0") {
         window.location.href = "../../signUpdate/login.html";
         return;
     }
 
-    if (loggedInStatus !== "enabled") {
-        showToast("⏳ Your account is not active yet. Please wait 24 hours for approval.", "danger");
-        return;
-    }
+    // if (loggedInStatus !== "enabled") {
+    //     showToast("⏳ Your account is not active yet. Please wait 24 hours for approval.", "danger");
+    //     return;
+    // }
 
     const cart = getCart(userId) || [];
     let allAvailable = true;
