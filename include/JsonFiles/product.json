@@ -4,28 +4,28 @@
     "name": "أبامكتين يونايند 1,8",
     "img": "./imgs/abamectinUnited.jpg",
     "description": {
-      "brand": "مبيد حشري",
+      "brand": "مبيد حشري"
     },
-    price: 1,
-    category: "مبيد حشري",
+    "price": 1,
+    "category": "مبيد حشري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 202,
     "name": "كافر",
     "img": "./imgs/caver.jpg",
     "description": {
-      "brand": "مبيد حشري",
+      "brand": "مبيد حشري"
     },
-    price: 1,
-    category: "مبيد حشري",
+    "price": 1,
+    "category": "مبيد حشري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -33,14 +33,14 @@
     "name": "دوكسي",
     "img": "./imgs/doxi.jpg",
       "description": {
-      "brand": "مبيد حشري",
+      "brand": "مبيد حشري"
     },
-    price: 1,
-    category: "مبيد حشري",
+    "price": 1,
+    "category": "مبيد حشري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -48,14 +48,14 @@
     "name": "جلاكسي",
     "img": "./imgs/galaxy.jpg",
       "description": {
-      "brand": "مبيد حشري",
+      "brand": "مبيد حشري"
     },
-    price: 1,
-    category: "مبيد حشري",
+    "price": 1,
+    "category": "مبيد حشري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -63,14 +63,14 @@
     "name": "جولد",
     "img": "./imgs/gold.jpg",
       "description": {
-      "brand": "سماد معلق عالي الفسفور",
+      "brand": "سماد معلق عالي الفسفور"
     },
-    price: 1,
-    category: "سماد معلق ",
+    "price": 1,
+    "category": "سماد معلق ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -78,14 +78,14 @@
     "name": "جولد كال",
     "img": "./imgs/goldCal.jpg",
       "description": {
-      "brand": " معلق  اكسيد كالسيوم",
+      "brand": " معلق  اكسيد كالسيوم"
     },
-    price: 1,
-    category: "معلق اكسيد  ",
+    "price": 1,
+    "category": "معلق اكسيد  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -93,14 +93,14 @@
     "name": "ايمكس",
     "img": "./imgs/imex.jpg",
       "description": {
-      "brand": "",
+      "brand": ""
     },
-    price: 1,
-    category: " #  ",
+    "price": 1,
+    "category": " #  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -108,28 +108,28 @@
     "name": "جاجوار",
     "img": "./imgs/Jaguar.jpg",
       "description": {
-      "brand": "",
+      "brand": ""
     },
-    price: 1,
-    category: " #  ",
+    "price": 1,
+    "category": " #  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
     {
     "id": 209,
     "name": "كوباني",
     "img": "./imgs/kobani.jpg",
       "description": {
-      "brand": "",
+      "brand": ""
     },
-    price: 1,
-    category: " #  ",
+    "price": 1,
+    "category": " #  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -137,42 +137,42 @@
     "name": "لمبادا 10%",
     "img": "./imgs/lambada5.jpg",
     "description": {
-      "brand": "مبيد حشري",
+      "brand": "مبيد حشري"
     },
-    price: 1,
-    category: "مبيد حشري",
+    "price": 1,
+    "category": "مبيد حشري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 211,
     "name": "لمبادا 5%",
     "img": "./imgs/lambada10.jpg",
     "description": {
-      "brand": "مبيد حشري",
+      "brand": "مبيد حشري"
     },
-    price: 1,
-    category: "مبيد حشري",
+    "price": 1,
+    "category": "مبيد حشري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 212,
     "name": "اورينو توب",
     "img": "./imgs/orianzTop.jpg",
     "description": {
-      "brand": "مبيد فطري",
+      "brand": "مبيد فطري"
     },
-    price: 1,
-    category: "مبيد فطري",
+    "price": 1,
+    "category": "مبيد فطري",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
   {
@@ -180,56 +180,56 @@
     "name": "فوسفو كي ",
     "img": "./imgs/phospho-k.jpg",
     "description": {
-      "brand": "التحجيم و التزهير ",
+      "brand": "التحجيم و التزهير "
     },
-    price: 1,
+    "price": 1,
     "brand": "التحجيم و التزهير ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 214,
     "name": "كوين ",
     "img": "./imgs/queen.jpg",
     "description": {
-      "brand": "   ",
+      "brand": "   "
     },
-    price: 1,
+    "price": 1,
     "brand":" ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 215,
     "name": "سال برو بلس ",
     "img": "./imgs/salBroBlus.jpg",
     "description": {
-      "brand": " معالج ملوخة",
+      "brand": " معالج ملوخة"
     },
-    price: 1,
+    "price": 1,
     "brand":" معالج ملوخة",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 216,
     "name": "شامل",
     "img": "./imgs/shamil.jpg",
     "description": {
-      "brand": " ",
+      "brand": " "
     },
-    price: 1,
+    "price": 1,
     "brand":"  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 
 
@@ -238,55 +238,55 @@
     "name": "سيرين",
     "img": "./imgs/sirin.jpg",
     "description": {
-      "brand": " منشط جذور ",
+      "brand": " منشط جذور "
     },
-    price: 1,
+    "price": 1,
     "brand":" منشط جذور ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 218,
     "name": "سيترو كي",
     "img": "./imgs/sytro-k.jpg",
     "description": {
-      "brand": "   ",
+      "brand": "   "
     },
-    price: 1,
+    "price": 1,
     "brand":"   ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 219,
     "name": "الترا زنك",
     "img": "./imgs/ultraZinc.jpg",
     "description": {
-      "brand": "   ",
+      "brand": "   "
     },
-    price: 1,
+    "price": 1,
     "brand":"  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
   {
     "id": 220,
     "name": "  كوبر بلس ",
     "img": "./imgs/cooperPlus.jpg",
     "description": {
-      "brand": "  جلوكنات نحاس",
+      "brand": "  جلوكنات نحاس"
     },
-    price: 1,
+    "price": 1,
     "brand":"  ",
     "sellerId": 101,
-    added: "2025-5-12",
-    sold: 0,
-    available: 100,
+    "added": "2025-5-12",
+    "sold": 0,
+    "available": 100
   },
 ]
